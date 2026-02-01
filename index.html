@@ -7,8 +7,8 @@
 
 <title>CNEBX DS | Digital System Hub</title>
 
-<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios, análisis, contenido editorial y tecnología.">
-<meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital, CNEBX DS">
+<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios y tecnología.">
+<meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital">
 <meta name="author" content="CNEBX">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="revisit-after" content="7 days">
@@ -21,7 +21,7 @@
   "name": "CNEBX DS",
   "url": "https://tu-dominio.com",
   "logo": "https://tu-dominio.com/logo-cnebx.png",
-  "description": "Hub central del ecosistema digital CNEBX. Conectando medios y tecnología."
+  "description": "Hub central del ecosistema digital CNEBX."
 }
 </script>
 
@@ -65,7 +65,6 @@ body.light{
   color: var(--light-text);
 }
 
-/* Fondo Canvas */
 canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
 /* === HEADER === */
@@ -83,17 +82,16 @@ canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   box-shadow: 0 0 20px rgba(255,0,51,0.25);
   backdrop-filter: blur(5px);
 }
-/* Logo en Modo Claro: BLANCO PURO */
+/* Logo en BLANCO SÓLIDO */
 body.light .logo-box{
-  background: #ffffff;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Sombra suave para resaltar */
+  background: #ffffff !important;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 .logo-box img{ height: 34px; display: block; }
 
 .ui-right{ display: flex; gap: 10px; }
 
-/* Botones UI */
 .ui-box{
   width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -107,17 +105,16 @@ body:not(.light) .ui-box{
   border: 1px solid rgba(255,0,51,0.45);
   color: #fff;
 }
-/* Botones en Modo Claro: BLANCO PURO */
+/* Botones BLANCO SÓLIDO */
 body.light .ui-box{
-  background: #ffffff;
-  border: 1px solid #eeeeee;
+  background: #ffffff !important;
+  border: 1px solid #e5e5e5;
   color: #000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
-/* Iconos SVG */
 .icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .icon-moon { display: none; }
 body.light .icon-sun { display: none; }
@@ -135,11 +132,14 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* PANEL MODO CLARO: BLANCO PURO */
+
+/* === CORRECCIÓN AQUÍ: BLANCO PURO FORZADO === */
 body.light .panel{
-  background-color: #ffffff !important; /* Forzado */
-  border: 1px solid #f2f2f2; 
-  box-shadow: 0 20px 80px rgba(0,0,0,0.06); /* Sombra elegante */
+  background: #ffffff !important; /* Bloquea cualquier transparencia */
+  background-color: #ffffff !important;
+  backdrop-filter: none !important; /* Quita desenfoque que causa colores raros */
+  border: 1px solid #f0f0f0; 
+  box-shadow: 0 20px 80px rgba(0,0,0,0.06);
 }
 
 .panel::before{
@@ -168,11 +168,14 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   border: 1px solid rgba(255,255,255,0.08);
   transition: transform 0.2s;
 }
-/* CARDS MODO CLARO: BLANCO PURO */
+
+/* === CORRECCIÓN AQUÍ: BLANCO PURO FORZADO === */
 body.light .card{
-  background-color: #ffffff !important; /* Forzado */
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
   border: 1px solid #eeeeee; 
-  box-shadow: 0 5px 25px rgba(0,0,0,0.05); /* Sombra limpia */
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
 }
 .card:hover{ transform: translateY(-4px); }
 
@@ -269,10 +272,8 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 </footer>
 
 <script>
-// --- FECHA ---
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// --- TEMA ---
 const themeBtn = document.getElementById("theme");
 const body = document.body;
 
@@ -285,7 +286,6 @@ themeBtn.onclick = () => {
   localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
 };
 
-// --- FONDO ANIMADO ---
 const c = document.getElementById("bg");
 const ctx = c.getContext("2d", { alpha: false }); 
 let W, H;
@@ -300,7 +300,332 @@ const lines = [...Array(28)].map(() => ({
 }));
 
 function draw(){
-  // FONDO: Blanco puro en light, Negro en dark
+  ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
+  ctx.fillRect(0, 0, W, H);
+
+  lines.forEach(o => {
+    o.p += 0.012; o.y += o.s;
+    if(o.y - o.l > H) o.y = -o.l;
+
+    const xEnd = o.x + Math.sin(o.p) * 90;
+    const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
+    const alpha = body.classList.contains("light") ? o.a : o.a * 2.5; 
+    
+    g.addColorStop(0, "transparent");
+    g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
+    g.addColorStop(1, "transparent");
+
+    ctx.lineWidth = 2; ctx.strokeStyle = g; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(xEnd, o.y + o.l); ctx.stroke();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="google" content="notranslate">
+
+<title>CNEBX DS | Digital System Hub</title>
+
+<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios y tecnología.">
+<meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital">
+<meta name="author" content="CNEBX">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="revisit-after" content="7 days">
+<link rel="canonical" href="https://tu-dominio.com/"> 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CNEBX DS",
+  "url": "https://tu-dominio.com",
+  "logo": "https://tu-dominio.com/logo-cnebx.png",
+  "description": "Hub central del ecosistema digital CNEBX."
+}
+</script>
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+
+<meta name="theme-color" content="#050508" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+<meta property="og:title" content="CNEBX DS | Digital System Hub">
+<meta property="og:description" content="Hub central del ecosistema digital.">
+<meta property="og:image" content="logo-cnebx.png">
+<meta property="og:type" content="website">
+
+<style>
+:root{
+  --red: #ff0033;
+  --dark-bg: #050508;
+  --dark-card: rgba(15,15,20,0.96);
+  --dark-text: #ffffff;
+  
+  /* MODO CLARO: BLANCO PURO ABSOLUTO */
+  --light-bg: #ffffff;
+  --light-card: #ffffff; 
+  --light-text: #0a0a0a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--dark-bg);
+  color: var(--dark-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.light{
+  background: var(--light-bg);
+  color: var(--light-text);
+}
+
+canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+/* === HEADER === */
+.float-ui{
+  position: fixed; top: 22px; left: 0; right: 0;
+  max-width: 1200px; margin: auto; padding: 0 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 100; transform: translateZ(0);
+}
+
+.logo-box{
+  padding: 10px 18px; border-radius: 14px;
+  background: rgba(10,10,14,0.9);
+  border: 1px solid rgba(255,0,51,0.45);
+  box-shadow: 0 0 20px rgba(255,0,51,0.25);
+  backdrop-filter: blur(5px);
+}
+/* Logo en BLANCO SÓLIDO */
+body.light .logo-box{
+  background: #ffffff !important;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.logo-box img{ height: 34px; display: block; }
+
+.ui-right{ display: flex; gap: 10px; }
+
+.ui-box{
+  width: 46px; height: 46px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 15px; font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+body:not(.light) .ui-box{
+  background: rgba(10,10,14,0.9);
+  border: 1px solid rgba(255,0,51,0.45);
+  color: #fff;
+}
+/* Botones BLANCO SÓLIDO */
+body.light .ui-box{
+  background: #ffffff !important;
+  border: 1px solid #e5e5e5;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.ui-box:hover{ transform: translateY(-2px); }
+.ui-box:active{ transform: scale(0.95); }
+
+.icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.icon-moon { display: none; }
+body.light .icon-sun { display: none; }
+body.light .icon-moon { display: block; }
+
+/* === SECCIONES === */
+section{
+  max-width: 1200px; margin: 90px auto; padding: 0 20px;
+  content-visibility: auto; 
+}
+
+.panel{
+  background: var(--dark-card);
+  border-radius: 28px; padding: 70px;
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative; will-change: transform;
+}
+
+/* === CORRECCIÓN AQUÍ: BLANCO PURO FORZADO === */
+body.light .panel{
+  background: #ffffff !important; /* Bloquea cualquier transparencia */
+  background-color: #ffffff !important;
+  backdrop-filter: none !important; /* Quita desenfoque que causa colores raros */
+  border: 1px solid #f0f0f0; 
+  box-shadow: 0 20px 80px rgba(0,0,0,0.06);
+}
+
+.panel::before{
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,0,51,0.08), transparent);
+  pointer-events: none; border-radius: inherit;
+}
+
+h1{ font-size: clamp(2.8rem, 5vw, 4rem); letter-spacing: -1px; }
+h2{ font-size: clamp(2.1rem, 4vw, 2.9rem); letter-spacing: -0.5px; }
+h3{ font-size: 1.25rem; font-weight: 700; }
+h1 span, h2 span, h3 span{ color: var(--red); }
+
+p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
+
+/* === CARDS === */
+.cards{
+  margin-top: 34px; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card{
+  padding: 28px; border-radius: 20px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.2s;
+}
+
+/* === CORRECCIÓN AQUÍ: BLANCO PURO FORZADO === */
+body.light .card{
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
+  border: 1px solid #eeeeee; 
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+}
+.card:hover{ transform: translateY(-4px); }
+
+.card a{
+  display: inline-block; margin-top: 18px;
+  padding: 10px 18px; border-radius: 10px;
+  border: 1px solid rgba(255,0,51,0.5);
+  color: var(--red); text-decoration: none;
+  font-size: 14px; font-weight: 600;
+  transition: 0.2s;
+}
+.card a:hover{ background: var(--red); color: #fff; }
+
+footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
+
+@media(max-width: 768px){ .panel{ padding: 46px 24px; } section{ margin: 110px auto; } }
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="float-ui">
+  <div class="logo-box">
+    <img src="logo-cnebx.png" alt="CNEBX DS">
+  </div>
+
+  <div class="ui-right">
+    <a href="/en" style="text-decoration:none">
+        <div class="ui-box" id="lang" title="English version">EN</div>
+    </a>
+    
+    <div class="ui-box" id="theme" title="Modo claro / oscuro">
+      <svg class="icon-svg icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      <svg class="icon-svg icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="panel">
+    <h1><span>CNEBX</span> DS</h1>
+    <p>Hub central del ecosistema digital. Infraestructura diseñada para conectar medios, análisis, contenido editorial y tecnología bajo una arquitectura escalable, modular y orientada a datos.</p>
+    <p>CNEBX DS organiza y potencia plataformas informativas y tecnológicas con identidad propia, enfoque regional e impacto global.</p>
+  </div>
+</section>
+
+<section>
+  <div class="panel">
+    <h2><span>Plataformas</span> del Ecosistema</h2>
+    <div class="cards">
+      <div class="card">
+        <h3><span>Noticias</span></h3>
+        <p>Cobertura informativa en deportes, actualidad y política, con enfoque regional (Perú y Chile) e información internacional y global.</p>
+        <a href="#">Ir a Noticias</a>
+      </div>
+      <div class="card">
+        <h3><span>Blog</span></h3>
+        <p>Contenido analítico y atemporal sobre finanzas, salud, religión y crecimiento personal. Publicado en español e inglés.</p>
+        <a href="#">Ir al Blog</a>
+      </div>
+      <div class="card">
+        <h3><span>Extra</span></h3>
+        <p>Plataforma enfocada en gaming, tecnología, webs y aplicaciones. Contenido técnico, análisis y tendencias.</p>
+        <a href="#">Ir a Extra</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="panel">
+    <h2><span>Identidad</span> del Ecosistema</h2>
+    <div class="cards">
+      <div class="card">
+        <h3><span>Quiénes</span> Somos</h3>
+        <p>Ecosistema digital enfocado en el desarrollo de plataformas informativas, editoriales y tecnológicas con visión moderna y crecimiento sostenible.</p>
+      </div>
+      <div class="card">
+        <h3><span>Qué</span> Buscamos</h3>
+        <p>Construir una red de medios y productos digitales confiables, con impacto regional, proyección global y fuerte identidad.</p>
+      </div>
+      <div class="card">
+        <h3><span>Rol</span> del Hub</h3>
+        <p>Centralización, escalado y coordinación de las plataformas del ecosistema, integrando tecnología, datos y estrategia editorial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> CNEBX DS — Todos los derechos reservados
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const themeBtn = document.getElementById("theme");
+const body = document.body;
+
+if(localStorage.getItem('cnebx_theme') === 'light'){
+  body.classList.add('light');
+}
+
+themeBtn.onclick = () => {
+  const isLight = body.classList.toggle("light");
+  localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
+};
+
+const c = document.getElementById("bg");
+const ctx = c.getContext("2d", { alpha: false }); 
+let W, H;
+
+function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+window.addEventListener("resize", resize, { passive: true });
+resize();
+
+const lines = [...Array(28)].map(() => ({
+  x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
+  s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
+}));
+
+function draw(){
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
   ctx.fillRect(0, 0, W, H);
 
