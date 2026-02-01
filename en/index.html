@@ -11,16 +11,16 @@
 <meta name="keywords" content="CNEBX, Digital Hub, News Peru Chile, Technology, Digital Ecosystem, CNEBX DS">
 <meta name="author" content="CNEBX">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="revisit-after" content="7 days">
+<link rel="canonical" href="https://tu-dominio.com/en">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "CNEBX DS",
-  "url": "https://your-domain.com/en",
-  "logo": "https://your-domain.com/logo-cnebx.png",
-  "description": "Central hub of the CNEBX digital ecosystem. Connecting media and technology."
+  "url": "https://tu-dominio.com",
+  "logo": "https://tu-dominio.com/logo-cnebx.png",
+  "description": "Central hub of the CNEBX digital ecosystem."
 }
 </script>
 
@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 
 <meta property="og:title" content="CNEBX DS | Digital System Hub">
-<meta property="og:description" content="Digital infrastructure designed to connect media, editorial content, and technology.">
+<meta property="og:description" content="Digital infrastructure designed to connect media and technology.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="logo-cnebx.png">
 
@@ -54,7 +54,6 @@ body{
   font-family: 'Inter', system-ui, sans-serif;
   background: var(--dark-bg);
   color: var(--dark-text);
-  /* Performance: Only transition colors */
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
@@ -65,7 +64,7 @@ body.light{
   color: var(--light-text);
 }
 
-/* Optimized Background Canvas */
+/* Background Canvas */
 canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
 /* === FLOATING HEADER === */
@@ -73,7 +72,7 @@ canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   position: fixed; top: 22px; left: 0; right: 0;
   max-width: 1200px; margin: auto; padding: 0 20px;
   display: flex; justify-content: space-between; align-items: center;
-  z-index: 100; transform: translateZ(0); /* GPU Layer */
+  z-index: 100; transform: translateZ(0);
 }
 
 .logo-box{
@@ -83,7 +82,6 @@ canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   box-shadow: 0 0 20px rgba(255,0,51,0.25);
   backdrop-filter: blur(5px);
 }
-/* Light Mode Logo Box */
 body.light .logo-box{
   background: #ffffff;
   border: 1px solid #e5e5e5;
@@ -116,7 +114,7 @@ body.light .ui-box{
 .ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
-/* SVG ICONS */
+/* SVG Icons */
 .icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .icon-moon { display: none; }
 body.light .icon-sun { display: none; }
@@ -125,7 +123,7 @@ body.light .icon-moon { display: block; }
 /* === SECTIONS === */
 section{
   max-width: 1200px; margin: 90px auto; padding: 0 20px;
-  content-visibility: auto; /* Scroll Optimization */
+  content-visibility: auto;
 }
 
 .panel{
@@ -134,11 +132,11 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* Light Mode Panel: Pure White */
+/* LIGHT MODE PANEL: PURE WHITE */
 body.light .panel{
-  background-color: #ffffff;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+  background: #ffffff;
+  border: 1px solid #f2f2f2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.05); /* Soft shadow for contrast */
 }
 
 .panel::before{
@@ -167,11 +165,11 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   border: 1px solid rgba(255,255,255,0.08);
   transition: transform 0.2s;
 }
-/* Light Mode Cards: Pure White */
+/* LIGHT MODE CARDS: PURE WHITE */
 body.light .card{
-  background-color: #ffffff;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.04); /* Clean shadow */
 }
 .card:hover{ transform: translateY(-4px); }
 
@@ -201,7 +199,7 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
   </div>
 
   <div class="ui-right">
-    <a href="index.html" style="text-decoration:none">
+    <a href="/" style="text-decoration:none">
         <div class="ui-box" id="lang" title="Switch to Spanish">ES</div>
     </a>
     
@@ -230,7 +228,6 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 <section>
   <div class="panel">
     <h2>Ecosystem <span>Platforms</span></h2>
-
     <div class="cards">
       <div class="card">
         <h3><span>News</span></h3>
@@ -241,23 +238,19 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
         </p>
         <a href="#">Go to News</a>
       </div>
-
       <div class="card">
         <h3><span>Blog</span></h3>
         <p>
           Analytical and evergreen content on finance, health, religion, 
-          and personal growth. Published in Spanish and English with 
-          informative and comparative approaches.
+          and personal growth. Published in Spanish and English.
         </p>
         <a href="#">Go to Blog</a>
       </div>
-
       <div class="card">
         <h3><span>Extra</span></h3>
         <p>
           A platform focused on gaming, technology, websites, and 
-          applications. Technical content, analysis, and trends 
-          available in Spanish and English.
+          applications. Technical content, analysis, and trends.
         </p>
         <a href="#">Go to Extra</a>
       </div>
@@ -268,7 +261,6 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 <section>
   <div class="panel">
     <h2>Ecosystem <span>Identity</span></h2>
-
     <div class="cards">
       <div class="card">
         <h3><span>Who</span> We Are</h3>
@@ -278,7 +270,6 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
           and sustainable growth.
         </p>
       </div>
-
       <div class="card">
         <h3><span>Our</span> Goal</h3>
         <p>
@@ -286,7 +277,6 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
           with regional impact, global projection, and a strong identity.
         </p>
       </div>
-
       <div class="card">
         <h3><span>Hub's</span> Role</h3>
         <p>
@@ -306,26 +296,22 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 // --- AUTO YEAR ---
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// --- THEME MANAGER (SHARED MEMORY) ---
-// Note: We use the same 'cnebx_theme' key as the Spanish version
-// so the user's choice persists when switching languages.
+// --- THEME MANAGER ---
 const themeBtn = document.getElementById("theme");
 const body = document.body;
 
-// 1. Check Memory
 if(localStorage.getItem('cnebx_theme') === 'light'){
   body.classList.add('light');
 }
 
-// 2. Toggle & Save
 themeBtn.onclick = () => {
   const isLight = body.classList.toggle("light");
   localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
 };
 
-// --- HIGH PERFORMANCE DIGITAL BACKGROUND ---
+// --- BACKGROUND (OPTIMIZED) ---
 const c = document.getElementById("bg");
-const ctx = c.getContext("2d", { alpha: false }); // Performance Trick
+const ctx = c.getContext("2d", { alpha: false }); 
 let W, H;
 
 function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
@@ -333,27 +319,19 @@ window.addEventListener("resize", resize, { passive: true });
 resize();
 
 const lines = [...Array(28)].map(() => ({
-  x: Math.random() * W,
-  y: Math.random() * H,
-  l: 260 + Math.random() * 360,
-  s: 0.8 + Math.random() * 1.6,
-  a: 0.15 + Math.random() * 0.25,
-  p: Math.random() * 6
+  x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
+  s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
 }));
 
 function draw(){
-  // Paint Background (No ClearRect)
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
   ctx.fillRect(0, 0, W, H);
 
   lines.forEach(o => {
-    o.p += 0.012;
-    o.y += o.s;
+    o.p += 0.012; o.y += o.s;
     if(o.y - o.l > H) o.y = -o.l;
 
     const xEnd = o.x + Math.sin(o.p) * 90;
-    
-    // Optimized Gradient
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
     const alpha = body.classList.contains("light") ? o.a : o.a * 2.5; 
     
@@ -361,15 +339,9 @@ function draw(){
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
     g.addColorStop(1, "transparent");
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = g;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(o.x, o.y);
-    ctx.lineTo(xEnd, o.y + o.l);
-    ctx.stroke();
+    ctx.lineWidth = 2; ctx.strokeStyle = g; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(xEnd, o.y + o.l); ctx.stroke();
   });
-
   requestAnimationFrame(draw);
 }
 draw();
