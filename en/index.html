@@ -64,7 +64,6 @@ body.light{
   color: var(--light-text);
 }
 
-/* Background Canvas */
 canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
 /* === FLOATING HEADER === */
@@ -82,9 +81,8 @@ canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   box-shadow: 0 0 20px rgba(255,0,51,0.25);
   backdrop-filter: blur(5px);
 }
-/* Light Mode Logo: Pure White */
 body.light .logo-box{
-  background: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #e5e5e5;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
 }
@@ -92,7 +90,7 @@ body.light .logo-box{
 
 .ui-right{ display: flex; gap: 10px; }
 
-/* UI Buttons */
+/* Buttons */
 .ui-box{
   width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -106,9 +104,8 @@ body:not(.light) .ui-box{
   border: 1px solid rgba(255,0,51,0.45);
   color: #fff;
 }
-/* Light Mode Buttons: Pure White */
 body.light .ui-box{
-  background: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #e5e5e5;
   color: #000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -116,7 +113,6 @@ body.light .ui-box{
 .ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
-/* SVG Icons */
 .icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .icon-moon { display: none; }
 body.light .icon-sun { display: none; }
@@ -134,11 +130,14 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* LIGHT MODE PANEL: PURE WHITE */
+/* PURE WHITE PANEL & KILL GRADIENT */
 body.light .panel{
-  background-color: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #f2f2f2;
-  box-shadow: 0 20px 80px rgba(0,0,0,0.06); /* Elegant Shadow */
+  box-shadow: 0 20px 80px rgba(0,0,0,0.06); 
+}
+body.light .panel::before {
+  display: none !important;
 }
 
 .panel::before{
@@ -165,15 +164,14 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   padding: 28px; border-radius: 20px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.2s;
+  /* No Hover animation here */
 }
-/* LIGHT MODE CARDS: PURE WHITE */
+/* PURE WHITE CARDS */
 body.light .card{
-  background-color: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #eeeeee;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.05); /* Clean Shadow */
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
 }
-.card:hover{ transform: translateY(-4px); }
 
 .card a{
   display: inline-block; margin-top: 18px;
@@ -295,10 +293,8 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 </footer>
 
 <script>
-// --- AUTO YEAR ---
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// --- THEME MANAGER ---
 const themeBtn = document.getElementById("theme");
 const body = document.body;
 
@@ -311,7 +307,6 @@ themeBtn.onclick = () => {
   localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
 };
 
-// --- BACKGROUND (OPTIMIZED) ---
 const c = document.getElementById("bg");
 const ctx = c.getContext("2d", { alpha: false }); 
 let W, H;
@@ -326,7 +321,6 @@ const lines = [...Array(28)].map(() => ({
 }));
 
 function draw(){
-  // PURE WHITE for Light Mode, BLACK for Dark Mode
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
   ctx.fillRect(0, 0, W, H);
 
