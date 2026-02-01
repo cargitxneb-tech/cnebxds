@@ -11,7 +11,6 @@
 <meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital">
 <meta name="author" content="CNEBX">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="revisit-after" content="7 days">
 <link rel="canonical" href="https://tu-dominio.com/"> 
 
 <script type="application/ld+json">
@@ -43,7 +42,7 @@
   --dark-card: rgba(15,15,20,0.96);
   --dark-text: #ffffff;
   
-  /* MODO CLARO: BLANCO PURO ABSOLUTO */
+  /* MODO CLARO: BLANCO ABSOLUTO */
   --light-bg: #ffffff;
   --light-card: #ffffff; 
   --light-text: #0a0a0a;
@@ -82,7 +81,6 @@ canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   box-shadow: 0 0 20px rgba(255,0,51,0.25);
   backdrop-filter: blur(5px);
 }
-/* Logo en BLANCO SÓLIDO */
 body.light .logo-box{
   background: #ffffff !important;
   border: 1px solid #e5e5e5;
@@ -92,6 +90,7 @@ body.light .logo-box{
 
 .ui-right{ display: flex; gap: 10px; }
 
+/* Botones (SÍ tienen hover) */
 .ui-box{
   width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -105,13 +104,13 @@ body:not(.light) .ui-box{
   border: 1px solid rgba(255,0,51,0.45);
   color: #fff;
 }
-/* Botones BLANCO SÓLIDO */
 body.light .ui-box{
   background: #ffffff !important;
   border: 1px solid #e5e5e5;
   color: #000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+/* Efecto hover SOLO en botones */
 .ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
@@ -132,14 +131,15 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-
-/* === CORRECCIÓN AQUÍ: BLANCO PURO FORZADO === */
+/* MODO CLARO: Limpieza total */
 body.light .panel{
-  background: #ffffff !important; /* Bloquea cualquier transparencia */
-  background-color: #ffffff !important;
-  backdrop-filter: none !important; /* Quita desenfoque que causa colores raros */
-  border: 1px solid #f0f0f0; 
+  background: #ffffff !important;
+  border: 1px solid #f2f2f2; 
   box-shadow: 0 20px 80px rgba(0,0,0,0.06);
+}
+/* ELIMINAR DEGRADADO ROJO EN MODO CLARO */
+body.light .panel::before {
+  display: none !important;
 }
 
 .panel::before{
@@ -166,18 +166,15 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   padding: 28px; border-radius: 20px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.2s;
+  /* Sin transition de transform */
 }
-
-/* === CORRECCIÓN AQUÍ: BLANCO PURO FORZADO === */
+/* MODO CLARO: Blanco puro */
 body.light .card{
   background: #ffffff !important;
-  background-color: #ffffff !important;
-  backdrop-filter: none !important;
   border: 1px solid #eeeeee; 
   box-shadow: 0 5px 25px rgba(0,0,0,0.05);
 }
-.card:hover{ transform: translateY(-4px); }
+/* Eliminado el card:hover { transform... } */
 
 .card a{
   display: inline-block; margin-top: 18px;
