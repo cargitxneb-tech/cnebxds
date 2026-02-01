@@ -12,7 +12,9 @@
 <meta name="author" content="CNEBX">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="revisit-after" content="7 days">
-<link rel="canonical" href="https://tu-dominio.com/"> <script type="application/ld+json">
+<link rel="canonical" href="https://tu-dominio.com/"> 
+
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -41,7 +43,7 @@
   --dark-card: rgba(15,15,20,0.96);
   --dark-text: #ffffff;
   
-  /* MODO CLARO: BLANCO PURO (LIMPIO) */
+  /* MODO CLARO: BLANCO PURO ABSOLUTO */
   --light-bg: #ffffff;
   --light-card: #ffffff; 
   --light-text: #0a0a0a;
@@ -53,7 +55,6 @@ body{
   font-family: 'Inter', system-ui, sans-serif;
   background: var(--dark-bg);
   color: var(--dark-text);
-  /* Transición suave de colores */
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
@@ -64,10 +65,10 @@ body.light{
   color: var(--light-text);
 }
 
-/* Fondo Canvas (Optimizado) */
+/* Fondo Canvas */
 canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-/* === HEADER FLOTANTE === */
+/* === HEADER === */
 .float-ui{
   position: fixed; top: 22px; left: 0; right: 0;
   max-width: 1200px; margin: auto; padding: 0 20px;
@@ -82,11 +83,11 @@ canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   box-shadow: 0 0 20px rgba(255,0,51,0.25);
   backdrop-filter: blur(5px);
 }
-/* Logo en modo claro: Blanco sólido, sombra suave */
+/* Logo en Modo Claro: BLANCO PURO */
 body.light .logo-box{
   background: #ffffff;
-  border: 1px solid #e5e5e5;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  border: 1px solid #eeeeee;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Sombra suave para resaltar */
 }
 .logo-box img{ height: 34px; display: block; }
 
@@ -106,16 +107,17 @@ body:not(.light) .ui-box{
   border: 1px solid rgba(255,0,51,0.45);
   color: #fff;
 }
+/* Botones en Modo Claro: BLANCO PURO */
 body.light .ui-box{
   background: #ffffff;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #eeeeee;
   color: #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
-/* ICONOS SVG */
+/* Iconos SVG */
 .icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .icon-moon { display: none; }
 body.light .icon-sun { display: none; }
@@ -124,7 +126,7 @@ body.light .icon-moon { display: block; }
 /* === SECCIONES === */
 section{
   max-width: 1200px; margin: 90px auto; padding: 0 20px;
-  content-visibility: auto; /* Optimización de renderizado */
+  content-visibility: auto; 
 }
 
 .panel{
@@ -133,11 +135,11 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* PANEL MODO CLARO: Blanco puro */
+/* PANEL MODO CLARO: BLANCO PURO */
 body.light .panel{
-  background-color: #ffffff;
-  border: 1px solid #f0f0f0; /* Borde muy sutil */
-  box-shadow: 0 20px 60px rgba(0,0,0,0.04); /* Sombra elegante */
+  background-color: #ffffff !important; /* Forzado */
+  border: 1px solid #f2f2f2; 
+  box-shadow: 0 20px 80px rgba(0,0,0,0.06); /* Sombra elegante */
 }
 
 .panel::before{
@@ -166,11 +168,11 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   border: 1px solid rgba(255,255,255,0.08);
   transition: transform 0.2s;
 }
-/* CARDS MODO CLARO: Blanco puro, limpio */
+/* CARDS MODO CLARO: BLANCO PURO */
 body.light .card{
-  background-color: #ffffff;
-  border: 1px solid #eeeeee; /* Borde mínimo para definición */
-  box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* Sombra ultra ligera */
+  background-color: #ffffff !important; /* Forzado */
+  border: 1px solid #eeeeee; 
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05); /* Sombra limpia */
 }
 .card:hover{ transform: translateY(-4px); }
 
@@ -200,7 +202,7 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
   </div>
 
   <div class="ui-right">
-    <a href="en.html" style="text-decoration:none">
+    <a href="/en" style="text-decoration:none">
         <div class="ui-box" id="lang" title="English version">EN</div>
     </a>
     
@@ -270,22 +272,20 @@ footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 // --- FECHA ---
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// --- TEMA (CON MEMORIA LOCALSTORAGE) ---
+// --- TEMA ---
 const themeBtn = document.getElementById("theme");
 const body = document.body;
 
-// 1. Verificar memoria al cargar
 if(localStorage.getItem('cnebx_theme') === 'light'){
   body.classList.add('light');
 }
 
-// 2. Click para cambiar
 themeBtn.onclick = () => {
   const isLight = body.classList.toggle("light");
   localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
 };
 
-// --- FONDO ANIMADO DE ALTO RENDIMIENTO ---
+// --- FONDO ANIMADO ---
 const c = document.getElementById("bg");
 const ctx = c.getContext("2d", { alpha: false }); 
 let W, H;
@@ -295,28 +295,20 @@ window.addEventListener("resize", resize, { passive: true });
 resize();
 
 const lines = [...Array(28)].map(() => ({
-  x: Math.random() * W,
-  y: Math.random() * H,
-  l: 260 + Math.random() * 360,
-  s: 0.8 + Math.random() * 1.6,
-  a: 0.15 + Math.random() * 0.25,
-  p: Math.random() * 6
+  x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
+  s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
 }));
 
 function draw(){
-  // PINTAMOS EL FONDO (Blanco puro en light, Negro en dark)
+  // FONDO: Blanco puro en light, Negro en dark
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
   ctx.fillRect(0, 0, W, H);
 
   lines.forEach(o => {
-    o.p += 0.012;
-    o.y += o.s;
+    o.p += 0.012; o.y += o.s;
     if(o.y - o.l > H) o.y = -o.l;
 
-    // Movimiento
     const xEnd = o.x + Math.sin(o.p) * 90;
-    
-    // Gradiente optimizado
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
     const alpha = body.classList.contains("light") ? o.a : o.a * 2.5; 
     
@@ -324,15 +316,9 @@ function draw(){
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
     g.addColorStop(1, "transparent");
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = g;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(o.x, o.y);
-    ctx.lineTo(xEnd, o.y + o.l);
-    ctx.stroke();
+    ctx.lineWidth = 2; ctx.strokeStyle = g; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(xEnd, o.y + o.l); ctx.stroke();
   });
-
   requestAnimationFrame(draw);
 }
 draw();
