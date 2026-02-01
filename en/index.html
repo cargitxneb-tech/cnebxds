@@ -130,15 +130,13 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* PURE WHITE PANEL & KILL GRADIENT */
+/* PURE WHITE PANEL */
 body.light .panel{
   background: #ffffff !important;
   border: 1px solid #f2f2f2;
   box-shadow: 0 20px 80px rgba(0,0,0,0.06); 
 }
-body.light .panel::before {
-  display: none !important;
-}
+body.light .panel::before { display: none !important; }
 
 .panel::before{
   content: ""; position: absolute; inset: 0;
@@ -156,7 +154,7 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
 /* === CARDS === */
 .cards{
   margin-top: 34px; display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
@@ -164,7 +162,6 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   padding: 28px; border-radius: 20px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
-  /* No Hover animation here */
 }
 /* PURE WHITE CARDS */
 body.light .card{
@@ -315,10 +312,22 @@ function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerH
 window.addEventListener("resize", resize, { passive: true });
 resize();
 
-const lines = [...Array(28)].map(() => ({
-  x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
-  s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
-}));
+// === DENSITY LOGIC ===
+function getLineCount() {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) return 30; 
+  return 80; // High density for PC
+}
+
+let lines = [];
+function initLines() {
+  lines = [...Array(getLineCount())].map(() => ({
+    x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
+    s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
+  }));
+}
+initLines();
+window.addEventListener("resize", () => setTimeout(initLines, 100));
 
 function draw(){
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
@@ -330,7 +339,8 @@ function draw(){
 
     const xEnd = o.x + Math.sin(o.p) * 90;
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
-    const alpha = body.classList.contains("light") ? o.a : o.a * 2.5; 
+    
+    const alpha = body.classList.contains("light") ? o.a : o.a * 3.5; 
     
     g.addColorStop(0, "transparent");
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
