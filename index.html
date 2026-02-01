@@ -8,18 +8,31 @@
 <title>CNEBX DS | Digital System Hub</title>
 
 <meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios, análisis y tecnología.">
-<meta name="keywords" content="CNEBX, CNEBX DS, hub digital, ecosistema, noticias, tecnología">
-<meta name="theme-color" content="#050508">
+<meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital">
+<meta name="author" content="CNEBX">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="app-icon.png">
+
+<meta name="theme-color" content="#050508" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+<meta property="og:title" content="CNEBX DS | Digital System Hub">
+<meta property="og:description" content="Hub central del ecosistema digital.">
+<meta property="og:image" content="logo-cnebx.png">
+<meta property="og:type" content="website">
 
 <style>
 :root{
   --red: #ff0033;
   --dark-bg: #050508;
-  --dark-card: rgba(15,15,20,0.95); /* Más opaco para rendimiento */
+  --dark-card: rgba(15,15,20,0.96);
   --dark-text: #ffffff;
   
-  --light-bg: #f4f4f4;
-  --light-card: #ffffff; /* BLANCO PURO SOLICITADO */
+  /* MODO CLARO: BLANCO PURO SOLICITADO */
+  --light-bg: #ffffff;
+  --light-card: #ffffff;
   --light-text: #0a0a0a;
 }
 
@@ -27,52 +40,34 @@
 
 body{
   font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--dark-bg);
+  background: var(--dark-bg);
   color: var(--dark-text);
-  /* Optimización: Solo transicionar colores, no layout */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s, color 0.3s;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
 }
 
 body.light{
-  background-color: var(--light-bg);
+  background: var(--light-bg);
   color: var(--light-text);
 }
 
-/* ===== FONDO OPTIMIZADO ===== */
-canvas{
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
+/* Fondo Canvas Optimizado */
+canvas{ position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-/* ===== FLOAT UI ===== */
+/* === HEADER FLOTANTE === */
 .float-ui{
-  position: fixed;
-  top: 22px;
-  left: 0; right: 0;
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-  transform: translateZ(0); /* Capa GPU propia */
+  position: fixed; top: 22px; left: 0; right: 0;
+  max-width: 1200px; margin: auto; padding: 0 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 100; transform: translateZ(0); /* Acelerar GPU */
 }
 
-.ui-right{ display: flex; gap: 10px; }
-
-/* LOGO */
 .logo-box{
-  padding: 10px 18px;
-  border-radius: 14px;
+  padding: 10px 18px; border-radius: 14px;
   background: rgba(10,10,14,0.9);
   border: 1px solid rgba(255,0,51,0.45);
-  /* Sombra estática para rendimiento */
-  box-shadow: 0 0 15px rgba(255,0,51,0.25);
+  box-shadow: 0 0 20px rgba(255,0,51,0.25);
   backdrop-filter: blur(5px);
 }
 body.light .logo-box{
@@ -82,122 +77,103 @@ body.light .logo-box{
 }
 .logo-box img{ height: 34px; display: block; }
 
-/* UI BOX (Botones) */
+.ui-right{ display: flex; gap: 10px; }
+
+/* Botones UI */
 .ui-box{
-  width: 46px; height: 46px;
-  border-radius: 12px;
-  display: grid; place-items: center;
+  width: 46px; height: 46px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   font-size: 15px; font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   user-select: none;
 }
-
-/* OSCURO */
+/* Estilos Oscuros */
 body:not(.light) .ui-box{
   background: rgba(10,10,14,0.9);
   border: 1px solid rgba(255,0,51,0.45);
   color: #fff;
 }
-/* CLARO */
+/* Estilos Claros (Blanco) */
 body.light .ui-box{
   background: #ffffff;
   border: 1px solid rgba(0,0,0,0.1);
   color: #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-
+.ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
-/* ===== SECTIONS ===== */
+/* === ICONOS SVG (SOLUCIONA EL PROBLEMA DEL EMOJI) === */
+.icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.icon-moon { display: none; } /* Oculto por defecto */
+body.light .icon-sun { display: none; } /* Ocultar sol en modo claro */
+body.light .icon-moon { display: block; } /* Mostrar luna en modo claro */
+
+/* === SECCIONES === */
 section{
-  max-width: 1200px;
-  margin: 90px auto;
-  padding: 0 20px;
-  /* CSS Containment: Mejora brutal del scroll al no renderizar lo que no se ve */
-  content-visibility: auto; 
-  contain-intrinsic-size: 500px;
+  max-width: 1200px; margin: 90px auto; padding: 0 20px;
+  content-visibility: auto; /* Mejora rendimiento scroll */
 }
 
 .panel{
   background: var(--dark-card);
-  border-radius: 28px;
-  padding: 70px;
+  border-radius: 28px; padding: 70px;
   border: 1px solid rgba(255,255,255,0.08);
-  position: relative;
-  /* Separar capa para scroll suave */
-  transform: translateZ(0); 
-  will-change: transform;
+  position: relative; will-change: transform;
 }
-
 body.light .panel{
-  background: var(--light-card); /* BLANCO PURO */
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.05); /* Sombra más ligera para performance */
+  background: var(--light-card); /* BLANCO */
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 20px 80px rgba(0,0,0,0.06); /* Sombra suave para separar del fondo blanco */
 }
 
-/* Efecto sutil rojo en panel */
 .panel::before{
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(120deg, transparent, rgba(255,0,51,0.05), transparent);
+  background: linear-gradient(120deg, transparent, rgba(255,0,51,0.08), transparent);
   pointer-events: none; border-radius: inherit;
 }
 
-h1{ font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -1px; }
-h2{ font-size: clamp(2rem, 4vw, 2.9rem); letter-spacing: -0.5px; }
-h3{ font-size: 1.35rem; font-weight: 700; }
+h1{ font-size: clamp(2.8rem, 5vw, 4rem); letter-spacing: -1px; }
+h2{ font-size: clamp(2.1rem, 4vw, 2.9rem); letter-spacing: -0.5px; }
+h3{ font-size: 1.25rem; font-weight: 700; }
 h1 span, h2 span, h3 span{ color: var(--red); }
 
-p{
-  margin-top: 18px; max-width: 860px;
-  line-height: 1.6; opacity: 0.9;
-}
+p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
 
-/* ===== CARDS GRID ===== */
+/* === CARDS === */
 .cards{
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 34px; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
 
 .card{
-  padding: 30px;
-  border-radius: 20px;
+  padding: 28px; border-radius: 20px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s;
 }
-
 body.light .card{
-  background: #ffffff; /* BLANCO PURO */
+  background: #ffffff; /* BLANCO */
   border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
-
-.card:hover{ transform: translateY(-3px); }
+.card:hover{ transform: translateY(-4px); }
 
 .card a{
-  display: inline-block; margin-top: 20px;
-  padding: 10px 20px; border-radius: 8px;
-  border: 1px solid rgba(255,0,51,0.4);
+  display: inline-block; margin-top: 18px;
+  padding: 10px 18px; border-radius: 10px;
+  border: 1px solid rgba(255,0,51,0.5);
   color: var(--red); text-decoration: none;
   font-size: 14px; font-weight: 600;
-  transition: background 0.2s;
+  transition: 0.2s;
 }
-.card a:hover{ background: rgba(255,0,51,0.1); }
+.card a:hover{ background: var(--red); color: #fff; }
 
-footer{
-  text-align: center; padding: 80px 20px;
-  font-size: 13px; opacity: 0.5;
-}
+footer{ text-align: center; padding: 60px 20px; font-size: 14px; opacity: 0.6; }
 
-/* Responsive adjustments */
-@media(max-width: 768px){
-  .panel{ padding: 40px 24px; }
-  section{ margin: 100px auto; }
-  h1{ line-height: 1.1; }
-}
+@media(max-width: 768px){ .panel{ padding: 46px 24px; } section{ margin: 110px auto; } }
 </style>
 </head>
 
@@ -211,169 +187,143 @@ footer{
   </div>
 
   <div class="ui-right">
-    <a href="en.html" style="text-decoration:none;">
-      <div class="ui-box" id="lang" title="Switch to English">EN</div>
+    <a href="en.html" style="text-decoration:none">
+        <div class="ui-box" id="lang" title="English version">EN</div>
     </a>
-    <div class="ui-box" id="theme" title="Modo Claro/Oscuro">
-      <span id="themeIcon">☀️</span>
+    
+    <div class="ui-box" id="theme" title="Modo claro / oscuro">
+      <svg class="icon-svg icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      <svg class="icon-svg icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </div>
   </div>
 </div>
 
-<main>
-  <section>
-    <div class="panel">
-      <h1><span>CNEBX</span> DS</h1>
-      <p>
-        Hub central del ecosistema digital. Infraestructura diseñada para conectar
-        medios, análisis, contenido editorial y tecnología bajo una arquitectura
-        escalable, modular y orientada a datos.
-      </p>
-    </div>
-  </section>
+<section>
+  <div class="panel">
+    <h1><span>CNEBX</span> DS</h1>
+    <p>Hub central del ecosistema digital. Infraestructura diseñada para conectar medios, análisis, contenido editorial y tecnología bajo una arquitectura escalable, modular y orientada a datos.</p>
+    <p>CNEBX DS organiza y potencia plataformas informativas y tecnológicas con identidad propia, enfoque regional e impacto global.</p>
+  </div>
+</section>
 
-  <section>
-    <div class="panel">
-      <h2><span>Plataformas</span> del Ecosistema</h2>
-      <div class="cards">
-        <div class="card">
-          <h3><span>Noticias</span></h3>
-          <p>Cobertura informativa en deportes, actualidad y política, con enfoque regional (Perú y Chile) y proyección global.</p>
-          <a href="#">Explorar</a>
-        </div>
-        <div class="card">
-          <h3><span>Blog</span></h3>
-          <p>Análisis atemporal sobre finanzas, salud y crecimiento personal. Contenido bilingüe y comparativo.</p>
-          <a href="#">Leer más</a>
-        </div>
-        <div class="card">
-          <h3><span>Extra</span></h3>
-          <p>Gaming, tecnología y desarrollo web. Tendencias técnicas y análisis de software.</p>
-          <a href="#">Ver Tech</a>
-        </div>
+<section>
+  <div class="panel">
+    <h2><span>Plataformas</span> del Ecosistema</h2>
+    <div class="cards">
+      <div class="card">
+        <h3><span>Noticias</span></h3>
+        <p>Cobertura informativa en deportes, actualidad y política, con enfoque regional (Perú y Chile) e información internacional y global.</p>
+        <a href="#">Ir a Noticias</a>
+      </div>
+      <div class="card">
+        <h3><span>Blog</span></h3>
+        <p>Contenido analítico y atemporal sobre finanzas, salud, religión y crecimiento personal. Publicado en español e inglés.</p>
+        <a href="#">Ir al Blog</a>
+      </div>
+      <div class="card">
+        <h3><span>Extra</span></h3>
+        <p>Plataforma enfocada en gaming, tecnología, webs y aplicaciones. Contenido técnico, análisis y tendencias.</p>
+        <a href="#">Ir a Extra</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="panel">
-      <h2><span>Identidad</span></h2>
-      <div class="cards">
-        <div class="card">
-          <h3><span>Misión</span></h3>
-          <p>Desarrollo de plataformas informativas con visión moderna y crecimiento sostenible.</p>
-        </div>
-        <div class="card">
-          <h3><span>Visión</span></h3>
-          <p>Red de productos digitales confiables con fuerte identidad visual y técnica.</p>
-        </div>
-        <div class="card">
-          <h3><span>Hub</span></h3>
-          <p>Centralización de tecnología, datos y estrategia editorial.</p>
-        </div>
+<section>
+  <div class="panel">
+    <h2><span>Identidad</span> del Ecosistema</h2>
+    <div class="cards">
+      <div class="card">
+        <h3><span>Quiénes</span> Somos</h3>
+        <p>Ecosistema digital enfocado en el desarrollo de plataformas informativas, editoriales y tecnológicas con visión moderna y crecimiento sostenible.</p>
+      </div>
+      <div class="card">
+        <h3><span>Qué</span> Buscamos</h3>
+        <p>Construir una red de medios y productos digitales confiables, con impacto regional, proyección global y fuerte identidad.</p>
+      </div>
+      <div class="card">
+        <h3><span>Rol</span> del Hub</h3>
+        <p>Centralización, escalado y coordinación de las plataformas del ecosistema, integrando tecnología, datos y estrategia editorial.</p>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
 
 <footer>
-  © 2026 CNEBX DS — Todos los derechos reservados
+  © <span id="year"></span> CNEBX DS — Todos los derechos reservados
 </footer>
 
 <script>
-/* === GESTIÓN DE TEMA (Con Memoria) === */
+// --- FECHA ---
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// --- TEMA (CON MEMORIA LOCALSTORAGE) ---
 const themeBtn = document.getElementById("theme");
-const themeIcon = document.getElementById("themeIcon");
 const body = document.body;
 
-// 1. Cargar tema guardado al iniciar
-const savedTheme = localStorage.getItem('cnebx_theme');
-if(savedTheme === 'light'){
+// 1. Verificar memoria al cargar
+if(localStorage.getItem('cnebx_theme') === 'light'){
   body.classList.add('light');
-  themeIcon.textContent = "🌙";
-} else {
-  themeIcon.textContent = "☀️";
 }
 
-// 2. Cambiar y Guardar
+// 2. Click para cambiar
 themeBtn.onclick = () => {
   const isLight = body.classList.toggle("light");
-  themeIcon.textContent = isLight ? "🌙" : "☀️";
   localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
 };
 
-/* === FONDO OPTIMIZADO (High Performance) === */
+// --- FONDO ANIMADO (OPTIMIZADO PERO MISMO DISEÑO) ---
+// Usamos "alpha: false" para rendimiento extremo
 const c = document.getElementById("bg");
-const ctx = c.getContext("2d", { alpha: false }); // Alpha false acelera rendering
+const ctx = c.getContext("2d", { alpha: false }); 
 let W, H;
 
-function resize(){
-  W = c.width = window.innerWidth;
-  H = c.height = window.innerHeight;
-}
-window.addEventListener("resize", () => {
-  resize();
-  // Reiniciar canvas brevemente para evitar parpadeos
-  ctx.fillStyle = body.classList.contains("light") ? "#f4f4f4" : "#050508";
-  ctx.fillRect(0, 0, W, H);
-});
+function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+window.addEventListener("resize", resize);
 resize();
 
-// Reduje cantidad de líneas a 20 para móviles, suficiente visualmente
-const lines = [...Array(22)].map(() => ({
+// Mismo número de líneas, misma lógica de movimiento
+const lines = [...Array(28)].map(() => ({
   x: Math.random() * W,
   y: Math.random() * H,
-  l: 200 + Math.random() * 400, // Longitud
-  s: 1 + Math.random() * 2,     // Velocidad
-  a: 0.2 + Math.random() * 0.3  // Opacidad base
+  l: 260 + Math.random() * 360,
+  s: 0.8 + Math.random() * 1.6,
+  a: 0.15 + Math.random() * 0.25,
+  p: Math.random() * 6
 }));
 
-function draw() {
-  const isLight = body.classList.contains("light");
-  
-  // TRUCO DE RENDIMIENTO:
-  // En lugar de limpiar el canvas (clearRect), pintamos un rectángulo
-  // semitransparente. Esto crea el efecto de "estela" pero usamos colores sólidos
-  // optimizados para evitar sobrecarga de GPU.
-  
-  ctx.fillStyle = isLight ? "rgba(244, 244, 244, 0.25)" : "rgba(5, 5, 8, 0.25)";
+function draw(){
+  // TRUCO DE VELOCIDAD: En vez de borrar, pintamos encima
+  ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
   ctx.fillRect(0, 0, W, H);
 
-  // Optimizamos el bucle
-  for (let i = 0; i < lines.length; i++) {
-    const o = lines[i];
+  lines.forEach(o => {
+    o.p += 0.012;
     o.y += o.s;
-    if (o.y - o.l > H) {
-      o.y = -o.l;
-      o.x = Math.random() * W;
-    }
+    if(o.y - o.l > H) o.y = -o.l; // Reiniciar si sale abajo
 
-    // Dibujamos la línea
-    // NOTA: Eliminé shadowBlur porque mata el rendimiento en móviles.
-    // Usamos opacidad en el gradiente para simular profundidad.
+    // DISEÑO ORIGINAL: Curva sinusoidal
+    // Hemos eliminado "shadowBlur" porque da LAG en móviles.
+    // Lo compensamos dibujando la línea con un gradiente limpio.
     
-    const g = ctx.createLinearGradient(o.x, o.y, o.x, o.y + o.l);
+    const xEnd = o.x + Math.sin(o.p) * 90; // El movimiento ondulado original
+    const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
     
-    // Ajuste de colores según tema
-    if(isLight) {
-        g.addColorStop(0, "transparent");
-        g.addColorStop(0.5, "rgba(255, 0, 51, 0.6)");
-        g.addColorStop(1, "transparent");
-    } else {
-        g.addColorStop(0, "transparent");
-        g.addColorStop(0.5, "rgba(255, 0, 51, 0.8)"); // Más brillante en oscuro
-        g.addColorStop(1, "transparent");
-    }
+    const alpha = body.classList.contains("light") ? o.a : o.a * 2.5; // Ajuste brillo
+    g.addColorStop(0, "transparent");
+    g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
+    g.addColorStop(1, "transparent");
 
-    ctx.fillStyle = g;
-    // Usamos fillRect finito en lugar de stroke() para líneas gruesas más performantes
-    ctx.fillRect(o.x, o.y, 2, o.l); 
-  }
+    ctx.lineWidth = 2; // Línea un poco más gruesa para compensar falta de shadowBlur
+    ctx.strokeStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(o.x, o.y);
+    ctx.lineTo(xEnd, o.y + o.l);
+    ctx.stroke();
+  });
 
   requestAnimationFrame(draw);
 }
-
-// Iniciar animación
 draw();
 </script>
 
