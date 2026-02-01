@@ -41,7 +41,6 @@
   --dark-bg: #050508;
   --dark-card: rgba(15,15,20,0.96);
   --dark-text: #ffffff;
-  
   /* LIGHT MODE: PURE WHITE */
   --light-bg: #ffffff;
   --light-card: #ffffff; 
@@ -90,7 +89,6 @@ body.light .logo-box{
 
 .ui-right{ display: flex; gap: 10px; }
 
-/* Buttons */
 .ui-box{
   width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -130,7 +128,6 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* PURE WHITE PANEL */
 body.light .panel{
   background: #ffffff !important;
   border: 1px solid #f2f2f2;
@@ -163,7 +160,6 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
 }
-/* PURE WHITE CARDS */
 body.light .card{
   background: #ffffff !important;
   border: 1px solid #eeeeee;
@@ -312,18 +308,23 @@ function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerH
 window.addEventListener("resize", resize, { passive: true });
 resize();
 
-// === DENSITY LOGIC ===
+// === DENSITY & SPREAD ===
 function getLineCount() {
-  const isMobile = window.innerWidth < 768;
-  if (isMobile) return 30; 
-  return 80; // High density for PC
+  const isMobile = window.innerWidth <768;
+  if (isMobile) return 12;
+  return 28; // Reduced count for more separation
 }
 
 let lines = [];
 function initLines() {
   lines = [...Array(getLineCount())].map(() => ({
-    x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
-    s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
+    x: Math.random() * W,
+    // Ensure top coverage on load
+    y: Math.random() * H * 1.2 - H * 0.2, 
+    l: 260 + Math.random() * 360,
+    s: 0.8 + Math.random() * 1.6, 
+    a: 0.15 + Math.random() * 0.25, 
+    p: Math.random() * 6
   }));
 }
 initLines();
@@ -340,7 +341,8 @@ function draw(){
     const xEnd = o.x + Math.sin(o.p) * 90;
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
     
-    const alpha = body.classList.contains("light") ? o.a : o.a * 3.5; 
+    // VISIBILITY: Dark mode stronger (3.0), Light mode subtle (0.6)
+    const alpha = body.classList.contains("light") ? o.a * 0.6 : o.a * 3.0; 
     
     g.addColorStop(0, "transparent");
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
