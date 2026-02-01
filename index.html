@@ -7,7 +7,7 @@
 
 <title>CNEBX DS | Digital System Hub</title>
 
-<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios y tecnología.">
+<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios, análisis y tecnología.">
 <meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital">
 <meta name="author" content="CNEBX">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -42,7 +42,7 @@
   --dark-card: rgba(15,15,20,0.96);
   --dark-text: #ffffff;
   
-  /* MODO CLARO: BLANCO ABSOLUTO */
+  /* MODO CLARO: BLANCO PURO */
   --light-bg: #ffffff;
   --light-card: #ffffff; 
   --light-text: #0a0a0a;
@@ -90,7 +90,6 @@ body.light .logo-box{
 
 .ui-right{ display: flex; gap: 10px; }
 
-/* Botones */
 .ui-box{
   width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -130,7 +129,6 @@ section{
   border: 1px solid rgba(255,255,255,0.08);
   position: relative; will-change: transform;
 }
-/* MODO CLARO: Limpieza total */
 body.light .panel{
   background: #ffffff !important;
   border: 1px solid #f2f2f2; 
@@ -151,11 +149,9 @@ h1 span, h2 span, h3 span{ color: var(--red); }
 
 p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
 
-/* === GRID INTELIGENTE (ADAPTABILIDAD TOTAL) === */
+/* === CARDS === */
 .cards{
-  margin-top: 34px; 
-  display: grid;
-  /* Esto asegura que las tarjetas llenen el espacio sin deformarse en ningún dispositivo */
+  margin-top: 34px; display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
@@ -165,7 +161,6 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
 }
-/* MODO CLARO: Blanco puro */
 body.light .card{
   background: #ffffff !important;
   border: 1px solid #eeeeee; 
@@ -287,13 +282,12 @@ function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerH
 window.addEventListener("resize", resize, { passive: true });
 resize();
 
-// === LÓGICA DE DENSIDAD PREMIUM ===
-// Calculamos líneas basado en el ancho: PC = Muchas líneas, Móvil = Pocas (optimizado)
-// Esto asegura que no queden huecos vacíos en pantallas grandes.
+// === CONFIGURACIÓN DE DENSIDAD OPTIMIZADA ===
+// Menos líneas = "Más separados" y "Menos cargado"
 function getLineCount() {
   const isMobile = window.innerWidth < 768;
-  if (isMobile) return 30; // Móvil: Ligero
-  return 80; // PC: DENSO (Sin huecos)
+  if (isMobile) return 18; // Antes 30 -> Mucho más limpio en móvil
+  return 45; // Antes 80 -> Más espacio negro entre líneas en PC
 }
 
 let lines = [];
@@ -307,7 +301,7 @@ function initLines() {
   }));
 }
 initLines();
-window.addEventListener("resize", () => setTimeout(initLines, 100)); // Recalcular al cambiar tamaño
+window.addEventListener("resize", () => setTimeout(initLines, 100));
 
 function draw(){
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
@@ -320,10 +314,10 @@ function draw(){
     const xEnd = o.x + Math.sin(o.p) * 90;
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
     
-    // AJUSTE DE VISIBILIDAD DE LÍNEAS
-    // Dark Mode: Opacidad más alta para que se vea "lleno".
-    // Light Mode: Opacidad media para limpieza.
-    const alpha = body.classList.contains("light") ? o.a : o.a * 3.5; 
+    // === CALIBRACIÓN DE VISIBILIDAD ===
+    // Light Mode: Multiplicamos por 0.6 (Muy sutil, casi invisible)
+    // Dark Mode: Multiplicamos por 1.8 (Visible pero no saturado)
+    const alpha = body.classList.contains("light") ? o.a * 0.6 : o.a * 1.8; 
     
     g.addColorStop(0, "transparent");
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
