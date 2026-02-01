@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="google" content="notranslate">
+
+<title>CNEBX DS | Digital System Hub</title>
+
+<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios, análisis y tecnología.">
+<meta name="keywords" content="CNEBX, CNEBX DS, hub digital, ecosistema, noticias, tecnología">
+<meta name="theme-color" content="#050508">
+
+<style>
+:root{
+  --red: #ff0033;
+  --dark-bg: #050508;
+  --dark-card: rgba(15,15,20,0.95); /* Más opaco para rendimiento */
+  --dark-text: #ffffff;
+  
+  --light-bg: #f4f4f4;
+  --light-card: #ffffff; /* BLANCO PURO SOLICITADO */
+  --light-text: #0a0a0a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  /* Optimización: Solo transicionar colores, no layout */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.light{
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+/* ===== FONDO OPTIMIZADO ===== */
+canvas{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ===== FLOAT UI ===== */
+.float-ui{
+  position: fixed;
+  top: 22px;
+  left: 0; right: 0;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  transform: translateZ(0); /* Capa GPU propia */
+}
+
+.ui-right{ display: flex; gap: 10px; }
+
+/* LOGO */
+.logo-box{
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: rgba(10,10,14,0.9);
+  border: 1px solid rgba(255,0,51,0.45);
+  /* Sombra estática para rendimiento */
+  box-shadow: 0 0 15px rgba(255,0,51,0.25);
+  backdrop-filter: blur(5px);
+}
+body.light .logo-box{
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.logo-box img{ height: 34px; display: block; }
+
+/* UI BOX (Botones) */
+.ui-box{
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  cursor: pointer;
+  font-size: 15px; font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+/* OSCURO */
+body:not(.light) .ui-box{
+  background: rgba(10,10,14,0.9);
+  border: 1px solid rgba(255,0,51,0.45);
+  color: #fff;
+}
+/* CLARO */
+body.light .ui-box{
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.ui-box:active{ transform: scale(0.95); }
+
+/* ===== SECTIONS ===== */
+section{
+  max-width: 1200px;
+  margin: 90px auto;
+  padding: 0 20px;
+  /* CSS Containment: Mejora brutal del scroll al no renderizar lo que no se ve */
+  content-visibility: auto; 
+  contain-intrinsic-size: 500px;
+}
+
+.panel{
+  background: var(--dark-card);
+  border-radius: 28px;
+  padding: 70px;
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  /* Separar capa para scroll suave */
+  transform: translateZ(0); 
+  will-change: transform;
+}
+
+body.light .panel{
+  background: var(--light-card); /* BLANCO PURO */
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.05); /* Sombra más ligera para performance */
+}
+
+/* Efecto sutil rojo en panel */
+.panel::before{
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,0,51,0.05), transparent);
+  pointer-events: none; border-radius: inherit;
+}
+
+h1{ font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -1px; }
+h2{ font-size: clamp(2rem, 4vw, 2.9rem); letter-spacing: -0.5px; }
+h3{ font-size: 1.35rem; font-weight: 700; }
+h1 span, h2 span, h3 span{ color: var(--red); }
+
+p{
+  margin-top: 18px; max-width: 860px;
+  line-height: 1.6; opacity: 0.9;
+}
+
+/* ===== CARDS GRID ===== */
+.cards{
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card{
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.2s ease;
+}
+
+body.light .card{
+  background: #ffffff; /* BLANCO PURO */
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+}
+
+.card:hover{ transform: translateY(-3px); }
+
+.card a{
+  display: inline-block; margin-top: 20px;
+  padding: 10px 20px; border-radius: 8px;
+  border: 1px solid rgba(255,0,51,0.4);
+  color: var(--red); text-decoration: none;
+  font-size: 14px; font-weight: 600;
+  transition: background 0.2s;
+}
+.card a:hover{ background: rgba(255,0,51,0.1); }
+
+footer{
+  text-align: center; padding: 80px 20px;
+  font-size: 13px; opacity: 0.5;
+}
+
+/* Responsive adjustments */
+@media(max-width: 768px){
+  .panel{ padding: 40px 24px; }
+  section{ margin: 100px auto; }
+  h1{ line-height: 1.1; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="float-ui">
+  <div class="logo-box">
+    <img src="logo-cnebx.png" alt="CNEBX DS">
+  </div>
+
+  <div class="ui-right">
+    <a href="en.html" style="text-decoration:none;">
+      <div class="ui-box" id="lang" title="Switch to English">EN</div>
+    </a>
+    <div class="ui-box" id="theme" title="Modo Claro/Oscuro">
+      <span id="themeIcon">☀️</span>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section>
+    <div class="panel">
+      <h1><span>CNEBX</span> DS</h1>
+      <p>
+        Hub central del ecosistema digital. Infraestructura diseñada para conectar
+        medios, análisis, contenido editorial y tecnología bajo una arquitectura
+        escalable, modular y orientada a datos.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="panel">
+      <h2><span>Plataformas</span> del Ecosistema</h2>
+      <div class="cards">
+        <div class="card">
+          <h3><span>Noticias</span></h3>
+          <p>Cobertura informativa en deportes, actualidad y política, con enfoque regional (Perú y Chile) y proyección global.</p>
+          <a href="#">Explorar</a>
+        </div>
+        <div class="card">
+          <h3><span>Blog</span></h3>
+          <p>Análisis atemporal sobre finanzas, salud y crecimiento personal. Contenido bilingüe y comparativo.</p>
+          <a href="#">Leer más</a>
+        </div>
+        <div class="card">
+          <h3><span>Extra</span></h3>
+          <p>Gaming, tecnología y desarrollo web. Tendencias técnicas y análisis de software.</p>
+          <a href="#">Ver Tech</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="panel">
+      <h2><span>Identidad</span></h2>
+      <div class="cards">
+        <div class="card">
+          <h3><span>Misión</span></h3>
+          <p>Desarrollo de plataformas informativas con visión moderna y crecimiento sostenible.</p>
+        </div>
+        <div class="card">
+          <h3><span>Visión</span></h3>
+          <p>Red de productos digitales confiables con fuerte identidad visual y técnica.</p>
+        </div>
+        <div class="card">
+          <h3><span>Hub</span></h3>
+          <p>Centralización de tecnología, datos y estrategia editorial.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 CNEBX DS — Todos los derechos reservados
+</footer>
+
+<script>
+/* === GESTIÓN DE TEMA (Con Memoria) === */
+const themeBtn = document.getElementById("theme");
+const themeIcon = document.getElementById("themeIcon");
+const body = document.body;
+
+// 1. Cargar tema guardado al iniciar
+const savedTheme = localStorage.getItem('cnebx_theme');
+if(savedTheme === 'light'){
+  body.classList.add('light');
+  themeIcon.textContent = "🌙";
+} else {
+  themeIcon.textContent = "☀️";
+}
+
+// 2. Cambiar y Guardar
+themeBtn.onclick = () => {
+  const isLight = body.classList.toggle("light");
+  themeIcon.textContent = isLight ? "🌙" : "☀️";
+  localStorage.setItem('cnebx_theme', isLight ? 'light' : 'dark');
+};
+
+/* === FONDO OPTIMIZADO (High Performance) === */
+const c = document.getElementById("bg");
+const ctx = c.getContext("2d", { alpha: false }); // Alpha false acelera rendering
+let W, H;
+
+function resize(){
+  W = c.width = window.innerWidth;
+  H = c.height = window.innerHeight;
+}
+window.addEventListener("resize", () => {
+  resize();
+  // Reiniciar canvas brevemente para evitar parpadeos
+  ctx.fillStyle = body.classList.contains("light") ? "#f4f4f4" : "#050508";
+  ctx.fillRect(0, 0, W, H);
+});
+resize();
+
+// Reduje cantidad de líneas a 20 para móviles, suficiente visualmente
+const lines = [...Array(22)].map(() => ({
+  x: Math.random() * W,
+  y: Math.random() * H,
+  l: 200 + Math.random() * 400, // Longitud
+  s: 1 + Math.random() * 2,     // Velocidad
+  a: 0.2 + Math.random() * 0.3  // Opacidad base
+}));
+
+function draw() {
+  const isLight = body.classList.contains("light");
+  
+  // TRUCO DE RENDIMIENTO:
+  // En lugar de limpiar el canvas (clearRect), pintamos un rectángulo
+  // semitransparente. Esto crea el efecto de "estela" pero usamos colores sólidos
+  // optimizados para evitar sobrecarga de GPU.
+  
+  ctx.fillStyle = isLight ? "rgba(244, 244, 244, 0.25)" : "rgba(5, 5, 8, 0.25)";
+  ctx.fillRect(0, 0, W, H);
+
+  // Optimizamos el bucle
+  for (let i = 0; i < lines.length; i++) {
+    const o = lines[i];
+    o.y += o.s;
+    if (o.y - o.l > H) {
+      o.y = -o.l;
+      o.x = Math.random() * W;
+    }
+
+    // Dibujamos la línea
+    // NOTA: Eliminé shadowBlur porque mata el rendimiento en móviles.
+    // Usamos opacidad en el gradiente para simular profundidad.
+    
+    const g = ctx.createLinearGradient(o.x, o.y, o.x, o.y + o.l);
+    
+    // Ajuste de colores según tema
+    if(isLight) {
+        g.addColorStop(0, "transparent");
+        g.addColorStop(0.5, "rgba(255, 0, 51, 0.6)");
+        g.addColorStop(1, "transparent");
+    } else {
+        g.addColorStop(0, "transparent");
+        g.addColorStop(0.5, "rgba(255, 0, 51, 0.8)"); // Más brillante en oscuro
+        g.addColorStop(1, "transparent");
+    }
+
+    ctx.fillStyle = g;
+    // Usamos fillRect finito en lugar de stroke() para líneas gruesas más performantes
+    ctx.fillRect(o.x, o.y, 2, o.l); 
+  }
+
+  requestAnimationFrame(draw);
+}
+
+// Iniciar animación
+draw();
+</script>
+
+</body>
+</html>
