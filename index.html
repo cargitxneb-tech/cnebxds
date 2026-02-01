@@ -7,7 +7,7 @@
 
 <title>CNEBX DS | Digital System Hub</title>
 
-<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios, análisis y tecnología.">
+<meta name="description" content="CNEBX DS es el hub central del ecosistema digital CNEBX. Infraestructura modular para medios y tecnología.">
 <meta name="keywords" content="CNEBX, Hub Digital, Noticias Perú Chile, Tecnología, Ecosistema Digital">
 <meta name="author" content="CNEBX">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -41,7 +41,6 @@
   --dark-bg: #050508;
   --dark-card: rgba(15,15,20,0.96);
   --dark-text: #ffffff;
-  
   /* MODO CLARO: BLANCO PURO */
   --light-bg: #ffffff;
   --light-card: #ffffff; 
@@ -282,18 +281,20 @@ function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerH
 window.addEventListener("resize", resize, { passive: true });
 resize();
 
-// === CONFIGURACIÓN DE DENSIDAD OPTIMIZADA ===
-// Menos líneas = "Más separados" y "Menos cargado"
+// === AJUSTE DE DENSIDAD (Más separados) ===
 function getLineCount() {
   const isMobile = window.innerWidth < 768;
-  if (isMobile) return 18; // Antes 30 -> Mucho más limpio en móvil
-  return 45; // Antes 80 -> Más espacio negro entre líneas en PC
+  if (isMobile) return 12; // Móvil: muy pocas líneas
+  return 28; // PC: Reducido para que estén más separadas
 }
 
 let lines = [];
 function initLines() {
   lines = [...Array(getLineCount())].map(() => ({
-    x: Math.random() * W, y: Math.random() * H, 
+    x: Math.random() * W,
+    // === AJUSTE DE COBERTURA SUPERIOR ===
+    // Inician distribuidas más arriba para no dejar hueco al cargar
+    y: Math.random() * H * 1.2 - H * 0.2, 
     l: 260 + Math.random() * 360,
     s: 0.8 + Math.random() * 1.6, 
     a: 0.15 + Math.random() * 0.25, 
@@ -314,10 +315,10 @@ function draw(){
     const xEnd = o.x + Math.sin(o.p) * 90;
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
     
-    // === CALIBRACIÓN DE VISIBILIDAD ===
-    // Light Mode: Multiplicamos por 0.6 (Muy sutil, casi invisible)
-    // Dark Mode: Multiplicamos por 1.8 (Visible pero no saturado)
-    const alpha = body.classList.contains("light") ? o.a * 0.6 : o.a * 1.8; 
+    // === AJUSTE DE VISIBILIDAD ===
+    // Light: Muy sutil (0.6)
+    // Dark: Más visible y vibrante (3.0)
+    const alpha = body.classList.contains("light") ? o.a * 0.6 : o.a * 3.0; 
     
     g.addColorStop(0, "transparent");
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
