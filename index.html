@@ -90,7 +90,7 @@ body.light .logo-box{
 
 .ui-right{ display: flex; gap: 10px; }
 
-/* Botones (SÍ tienen hover) */
+/* Botones */
 .ui-box{
   width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -110,7 +110,6 @@ body.light .ui-box{
   color: #000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-/* Efecto hover SOLO en botones */
 .ui-box:hover{ transform: translateY(-2px); }
 .ui-box:active{ transform: scale(0.95); }
 
@@ -137,10 +136,7 @@ body.light .panel{
   border: 1px solid #f2f2f2; 
   box-shadow: 0 20px 80px rgba(0,0,0,0.06);
 }
-/* ELIMINAR DEGRADADO ROJO EN MODO CLARO */
-body.light .panel::before {
-  display: none !important;
-}
+body.light .panel::before { display: none !important; }
 
 .panel::before{
   content: ""; position: absolute; inset: 0;
@@ -155,10 +151,12 @@ h1 span, h2 span, h3 span{ color: var(--red); }
 
 p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
 
-/* === CARDS === */
+/* === GRID INTELIGENTE (ADAPTABILIDAD TOTAL) === */
 .cards{
-  margin-top: 34px; display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 34px; 
+  display: grid;
+  /* Esto asegura que las tarjetas llenen el espacio sin deformarse en ningún dispositivo */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
@@ -166,7 +164,6 @@ p{ margin-top: 18px; max-width: 860px; line-height: 1.7; opacity: 0.9; }
   padding: 28px; border-radius: 20px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
-  /* Sin transition de transform */
 }
 /* MODO CLARO: Blanco puro */
 body.light .card{
@@ -174,7 +171,6 @@ body.light .card{
   border: 1px solid #eeeeee; 
   box-shadow: 0 5px 25px rgba(0,0,0,0.05);
 }
-/* Eliminado el card:hover { transform... } */
 
 .card a{
   display: inline-block; margin-top: 18px;
@@ -291,10 +287,27 @@ function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerH
 window.addEventListener("resize", resize, { passive: true });
 resize();
 
-const lines = [...Array(28)].map(() => ({
-  x: Math.random() * W, y: Math.random() * H, l: 260 + Math.random() * 360,
-  s: 0.8 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.25, p: Math.random() * 6
-}));
+// === LÓGICA DE DENSIDAD PREMIUM ===
+// Calculamos líneas basado en el ancho: PC = Muchas líneas, Móvil = Pocas (optimizado)
+// Esto asegura que no queden huecos vacíos en pantallas grandes.
+function getLineCount() {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) return 30; // Móvil: Ligero
+  return 80; // PC: DENSO (Sin huecos)
+}
+
+let lines = [];
+function initLines() {
+  lines = [...Array(getLineCount())].map(() => ({
+    x: Math.random() * W, y: Math.random() * H, 
+    l: 260 + Math.random() * 360,
+    s: 0.8 + Math.random() * 1.6, 
+    a: 0.15 + Math.random() * 0.25, 
+    p: Math.random() * 6
+  }));
+}
+initLines();
+window.addEventListener("resize", () => setTimeout(initLines, 100)); // Recalcular al cambiar tamaño
 
 function draw(){
   ctx.fillStyle = body.classList.contains("light") ? "#ffffff" : "#050508";
@@ -306,7 +319,11 @@ function draw(){
 
     const xEnd = o.x + Math.sin(o.p) * 90;
     const g = ctx.createLinearGradient(o.x, o.y, xEnd, o.y + o.l);
-    const alpha = body.classList.contains("light") ? o.a : o.a * 2.5; 
+    
+    // AJUSTE DE VISIBILIDAD DE LÍNEAS
+    // Dark Mode: Opacidad más alta para que se vea "lleno".
+    // Light Mode: Opacidad media para limpieza.
+    const alpha = body.classList.contains("light") ? o.a : o.a * 3.5; 
     
     g.addColorStop(0, "transparent");
     g.addColorStop(0.5, `rgba(255,0,51,${alpha})`);
